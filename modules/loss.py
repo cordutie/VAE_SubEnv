@@ -4,7 +4,7 @@ import torch
 
 
 # MULTISCALE SPECTOGRAM HERE
-def multiscale_fft(signal, scales=[1024, 512, 256, 128, 64], overlap=.75):
+def multiscale_fft(signal, scales=[4096, 2048, 1024, 512, 256, 128], overlap=.75):
     stfts = []
     for s in scales:
         S = torch.stft(
@@ -146,10 +146,12 @@ def statistics_loss(original_signal, reconstructed_signal, N_filter_bank, sample
         # normalize depending on the amount of data (compute data from shape)
         loss_i = loss_i / original_statistics[i].numel()
         loss.append(loss_i)
-
+    loss_tensor = torch.stack(loss)
+    
     #dot product between lists loss and alpha (ensure equal dtype)
-    final_loss = torch.dot(torch.tensor(loss, dtype=loss[0].dtype), torch.tensor(alpha, dtype=loss[0].dtype))
-    return 2**(final_loss/3-1)
+    alpha = torch.tensor([10, 50, 100, 100, 100], dtype=loss[0].dtype, device=loss[0].device)
+    final_loss = torch.dot(loss_tensor, alpha)
+    return final_loss 
 
 def batch_statistics_loss(original_signals, reconstructed_signals, N_filter_bank, sample_rate, erb_bank, log_bank):
     batch_size = original_signals.size(0)

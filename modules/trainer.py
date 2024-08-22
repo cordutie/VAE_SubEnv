@@ -26,15 +26,14 @@ def train_multiscale_loss(model, optimizer, num_epochs, device, dataloader, save
             optimizer.zero_grad()
 
             # Forward pass
-            x_hat, mean, var = model(energy)
+            x_hat = model(energy)
             
             # Ensure everything is on the same device
-            x_hat, mean, var = x_hat.to(device), mean.to(device), var.to(device)
+            x_hat = x_hat.to(device)
 
             # Compute main loss
-            loss_1 = multiscale_spectrogram_loss(x, x_hat).to(device)
-            loss_2 = -0.5 * torch.sum(1 + safe_log(var) - mean.pow(2) - var).to(device)  # KLD
-            loss = (loss_1 + loss_2).to(device)
+            loss = multiscale_spectrogram_loss(x, x_hat).to(device)
+
             overall_loss += loss.item()
 
             # Backward pass and optimization
@@ -94,15 +93,13 @@ def train_statistics_loss(model, optimizer, num_epochs, device, dataloader, save
             optimizer.zero_grad()
 
             # Forward pass
-            x_hat, mean, var = model(energy)
-
+            x_hat = model(energy)
+            
             # Ensure everything is on the same device
-            x_hat, mean, var = x_hat.to(device), mean.to(device), var.to(device)
+            x_hat = x_hat.to(device)
 
             # Compute main loss
-            loss_1 = batch_statistics_loss(x, x_hat, N_filter_bank, sample_rate, erb_bank, log_bank).to(device)
-            loss_2 = -0.5 * torch.sum(1 + safe_log(var) - mean.pow(2) - var).to(device)  # KLD
-            loss = (loss_1 + loss_2).to(device)
+            loss = batch_statistics_loss(x, x_hat, N_filter_bank, sample_rate, erb_bank, log_bank).to(device)
             overall_loss += loss.item()
 
             # Backward pass and optimization
