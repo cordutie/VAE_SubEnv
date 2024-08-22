@@ -2,9 +2,14 @@ import torch
 from modules.loss import *
 from modules.architecture import *
 import matplotlib.pyplot as plt
+import os
 
 # trainer multiscale loss ------------------------------------------------------------------
 def train_multiscale_loss(model, optimizer, num_epochs, device, dataloader, save_dir):
+    # Create directory if it doesn't exist
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+    
     best_loss = float('inf')
     loss_history = []
 
