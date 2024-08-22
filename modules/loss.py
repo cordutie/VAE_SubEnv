@@ -4,7 +4,7 @@ import torch
 
 
 # MULTISCALE SPECTOGRAM HERE
-def multiscale_fft(signal, scales=[256, 128, 64], overlap=.75):
+def multiscale_fft(signal, scales=[1024, 512, 256, 128, 64], overlap=.75):
     stfts = []
     for s in scales:
         S = torch.stft(

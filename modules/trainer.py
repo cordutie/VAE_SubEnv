@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import os
 
 # trainer multiscale loss ------------------------------------------------------------------
-def train_multiscale_loss(model, optimizer, num_epochs, device, dataloader, save_dir):
+def train_multiscale_loss(model, optimizer, num_epochs, device, dataloader, save_dir, settings): 
     # Create directory if it doesn't exist
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
@@ -18,13 +18,15 @@ def train_multiscale_loss(model, optimizer, num_epochs, device, dataloader, save
         overall_loss = 0
         
         for batch in dataloader:
-            x = batch.to(device)
-
+            x, energy = batch
+            x      = x.to(device)
+            energy = energy.to(device)
+            
             # Zero the parameter gradients
             optimizer.zero_grad()
 
             # Forward pass
-            x_hat, mean, var = model(x)
+            x_hat, mean, var = model(energy)
             
             # Ensure everything is on the same device
             x_hat, mean, var = x_hat.to(device), mean.to(device), var.to(device)
@@ -47,10 +49,10 @@ def train_multiscale_loss(model, optimizer, num_epochs, device, dataloader, save
         # Save the best model if this epoch's loss is the lowest so far
         if avg_loss < best_loss:
             best_loss = avg_loss
-            save_model(model, f"{save_dir}/best_model.pth")
+            save_model(model, f"{save_dir}/best_model.pth", settings)
         
         # Save the latest model
-        save_model(model, f"{save_dir}/last_model.pth")
+        save_model(model, f"{save_dir}/last_model.pth", settings)
 
     # After all epochs, plot the loss history
     plt.figure()
@@ -66,7 +68,7 @@ def train_multiscale_loss(model, optimizer, num_epochs, device, dataloader, save
     print(f"Training complete. Best model saved to {save_dir}/best_model.pth and the latest model saved to {save_dir}/last_model.pth")
 
 # Trainer statistics loss ------------------------------------------------------------------
-def train_statistics_loss(model, optimizer, num_epochs, device, dataloader, save_dir, N_filter_bank, frame_size, sample_rate):
+def train_statistics_loss(model, optimizer, num_epochs, device, dataloader, save_dir, N_filter_bank, frame_size, sample_rate, settings):
     # Create directory if it doesn't exist
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
@@ -84,13 +86,15 @@ def train_statistics_loss(model, optimizer, num_epochs, device, dataloader, save
         overall_loss = 0
         
         for batch in dataloader:
-            x = batch.to(device)
-
+            x, energy = batch
+            x      = x.to(device)
+            energy = energy.to(device)
+            
             # Zero the parameter gradients
             optimizer.zero_grad()
 
             # Forward pass
-            x_hat, mean, var = model(x)
+            x_hat, mean, var = model(energy)
 
             # Ensure everything is on the same device
             x_hat, mean, var = x_hat.to(device), mean.to(device), var.to(device)
@@ -113,10 +117,10 @@ def train_statistics_loss(model, optimizer, num_epochs, device, dataloader, save
         # Save the best model if this epoch's loss is the lowest so far
         if avg_loss < best_loss:
             best_loss = avg_loss
-            save_model(model, f"{save_dir}/best_model.pth")
+            save_model(model, f"{save_dir}/best_model.pth", settings)
         
         # Save the latest model
-        save_model(model, f"{save_dir}/last_model.pth")
+        save_model(model, f"{save_dir}/last_model.pth", settings)
 
     # After all epochs, plot the loss history
     plt.figure()
