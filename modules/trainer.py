@@ -26,10 +26,13 @@ def train_multiscale_loss(model, optimizer, num_epochs, device, dataloader, save
             # Forward pass
             x_hat, mean, var = model(x)
             
+            # Ensure everything is on the same device
+            x_hat, mean, var = x_hat.to(device), mean.to(device), var.to(device)
+
             # Compute main loss
-            loss_1 = multiscale_spectrogram_loss(x, x_hat)
-            loss_2 = - 0.5 * torch.sum(1+ safe_log(var) - mean.pow(2) - var) # KLD
-            loss = loss_1 + loss_2
+            loss_1 = multiscale_spectrogram_loss(x, x_hat).to(device)
+            loss_2 = -0.5 * torch.sum(1 + safe_log(var) - mean.pow(2) - var).to(device)  # KLD
+            loss = (loss_1 + loss_2).to(device)
             overall_loss += loss.item()
 
             # Backward pass and optimization
@@ -64,10 +67,10 @@ def train_multiscale_loss(model, optimizer, num_epochs, device, dataloader, save
 
 # Trainer statistics loss ------------------------------------------------------------------
 def train_statistics_loss(model, optimizer, num_epochs, device, dataloader, save_dir, N_filter_bank, frame_size, sample_rate):
-    erb_bank = fb.EqualRectangularBandwidth(frame_size, sample_rate, N_filter_bank, 20, sample_rate // 2)
+    erb_bank = fb.EqualRectangularBandwidth(frame_size, sample_rate, N_filter_bank, 20, sample_rate // 2).to(device)
     new_size = frame_size // 4
     new_sample_rate = sample_rate // 4
-    log_bank = fb.Logarithmic(new_size, new_sample_rate, 6, 20, new_sample_rate // 2)
+    log_bank = fb.Logarithmic(new_size, new_sample_rate, 6, 20, new_sample_rate // 2).to(device)
     
     best_loss = float('inf')
     loss_history = []
@@ -84,11 +87,14 @@ def train_statistics_loss(model, optimizer, num_epochs, device, dataloader, save
 
             # Forward pass
             x_hat, mean, var = model(x)
-            
+
+            # Ensure everything is on the same device
+            x_hat, mean, var = x_hat.to(device), mean.to(device), var.to(device)
+
             # Compute main loss
-            loss_1 = batch_statistics_loss(x, x_hat, N_filter_bank, sample_rate, erb_bank, log_bank)
-            loss_2 = - 0.5 * torch.sum(1+ safe_log(var) - mean.pow(2) - var) # KLD
-            loss = loss_1 + loss_2
+            loss_1 = batch_statistics_loss(x, x_hat, N_filter_bank, sample_rate, erb_bank, log_bank).to(device)
+            loss_2 = -0.5 * torch.sum(1 + safe_log(var) - mean.pow(2) - var).to(device)  # KLD
+            loss = (loss_1 + loss_2).to(device)
             overall_loss += loss.item()
 
             # Backward pass and optimization
