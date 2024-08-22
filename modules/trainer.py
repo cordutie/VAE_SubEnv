@@ -67,10 +67,10 @@ def train_multiscale_loss(model, optimizer, num_epochs, device, dataloader, save
 
 # Trainer statistics loss ------------------------------------------------------------------
 def train_statistics_loss(model, optimizer, num_epochs, device, dataloader, save_dir, N_filter_bank, frame_size, sample_rate):
-    erb_bank = fb.EqualRectangularBandwidth(frame_size, sample_rate, N_filter_bank, 20, sample_rate // 2).to(device)
+    erb_bank = fb.EqualRectangularBandwidth(frame_size, sample_rate, N_filter_bank, 20, sample_rate // 2)
     new_size = frame_size // 4
     new_sample_rate = sample_rate // 4
-    log_bank = fb.Logarithmic(new_size, new_sample_rate, 6, 20, new_sample_rate // 2).to(device)
+    log_bank = fb.Logarithmic(new_size, new_sample_rate, 6, 20, new_sample_rate // 2)
     
     best_loss = float('inf')
     loss_history = []
