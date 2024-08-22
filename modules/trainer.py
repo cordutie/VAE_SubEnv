@@ -67,6 +67,10 @@ def train_multiscale_loss(model, optimizer, num_epochs, device, dataloader, save
 
 # Trainer statistics loss ------------------------------------------------------------------
 def train_statistics_loss(model, optimizer, num_epochs, device, dataloader, save_dir, N_filter_bank, frame_size, sample_rate):
+    # Create directory if it doesn't exist
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+    
     erb_bank = fb.EqualRectangularBandwidth(frame_size, sample_rate, N_filter_bank, 20, sample_rate // 2)
     new_size = frame_size // 4
     new_sample_rate = sample_rate // 4
