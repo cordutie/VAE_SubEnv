@@ -11,7 +11,7 @@
 
 echo "### Loading modules..."
 module --ignore-cache load CUDA
-module load Python tqdm matplotlib
+module load Python tqdm
 echo "### ...done."
 
 echo "### Installing modules..."
@@ -21,7 +21,7 @@ python3 -m pip install numpy
 python3 -m pip install librosa
 python3 -m pip install torch
 python3 -m pip install torchinfo
-python3 -m pip install torchaudio
+python3 -m pip install matplotlib
 echo "### ...done."
 
 echo "### HPC Job properties:"
