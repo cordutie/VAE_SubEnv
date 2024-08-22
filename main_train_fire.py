@@ -31,7 +31,6 @@ settings = {
 dataset = VAE_Dataset(audio_path, frame_size, sr, N_filter_bank)
 dataset_list = dataset.compute_dataset()
 print("dataset size: ", len(dataset_list))
-dataset.play_dataset(dataset_list, sr)
 dataloader = DataLoader(dataset_list, batch_size=16, shuffle=True)
 
 #Model loading
@@ -70,7 +69,6 @@ settings = {
 dataset = VAE_Dataset(audio_path, frame_size, sr, N_filter_bank)
 dataset_list = dataset.compute_dataset()
 print("dataset size: ", len(dataset_list))
-dataset.play_dataset(dataset_list, sr)
 dataloader = DataLoader(dataset_list, batch_size=16, shuffle=True)
 
 #Model loading

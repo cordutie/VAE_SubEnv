@@ -5,7 +5,7 @@ from torch.utils.data import Dataset, DataLoader
 import numpy as np
 import librosa
 import modules.filterbanks as fb
-from IPython.display import Audio, display
+# from IPython.display import Audio, display
 
 # Dataset maker -------------------------------------------------------------
 class VAE_Dataset(Dataset):
@@ -41,8 +41,8 @@ class VAE_Dataset(Dataset):
         # actual_dataset = actual_dataset[2:3]
         return actual_dataset
     
-    def play_dataset(self, actual_dataset, sr):
-        actual_dataset = actual_dataset[16:20]
-        # Play the dataset using Display() and audio()
-        for i in range(len(actual_dataset)):
-            display(Audio(actual_dataset[i][0].numpy(), rate=sr))
+    # def play_dataset(self, actual_dataset, sr):
+    #     actual_dataset = actual_dataset[16:20]
+    #     # Play the dataset using Display() and audio()
+    #     for i in range(len(actual_dataset)):
+    #         display(Audio(actual_dataset[i][0].numpy(), rate=sr))
