@@ -35,7 +35,7 @@ def safe_log(x):
 
 # Statistics loss ------------------------------------------------------------------
 
-from modules.seeds import *
+from VAE_SubEnv.modules.seeds import *
 import torchaudio
 
 def correlation_coefficient(tensor1, tensor2):
