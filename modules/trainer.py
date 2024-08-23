@@ -1,6 +1,6 @@
 import torch
-from modules.loss import *
-from modules.architecture import *
+from VAE_SubEnv.modules.loss import *
+from VAE_SubEnv.modules.architecture import *
 import matplotlib.pyplot as plt
 import os
 

@@ -1,6 +1,6 @@
 import torch
 import numpy as np
-import modules.filterbanks as fb
+import VAE_SubEnv.modules.filterbanks as fb
 
 def hilbert(x, N=None, axis=-1):
     """

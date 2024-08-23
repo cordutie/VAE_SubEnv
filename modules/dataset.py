@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from torch.utils.data import Dataset, DataLoader
 import numpy as np
 import librosa
-import modules.filterbanks as fb
+import VAE_SubEnv.modules.filterbanks as fb
 # from IPython.display import Audio, display
 
 # Dataset maker -------------------------------------------------------------

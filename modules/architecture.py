@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
-from modules.synthesizer import SubEnv, SubEnv_batches
-from modules.seeds import seed_maker
+from VAE_SubEnv.modules.synthesizer import SubEnv, SubEnv_batches
+from VAE_SubEnv.modules.seeds import seed_maker
 
 def mlp(in_size, hidden_size, n_layers):
     channels = [in_size] + [hidden_size] * n_layers

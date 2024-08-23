@@ -1,11 +1,19 @@
+import os
+import sys
+
+# Add the parent directory to the Python path
+parent_dir = os.path.abspath('..')
+if parent_dir not in sys.path:
+    sys.path.append(parent_dir)
+
 import torch
 import matplotlib.pyplot as plt
 import numpy as np
 import torch.optim as optim
-from modules.dataset import *
-from modules.seeds import *
-from modules.architecture import *
-from modules.trainer import *
+from VAE_SubEnv.modules.dataset import *
+from VAE_SubEnv.modules.seeds import *
+from VAE_SubEnv.modules.architecture import *
+from VAE_SubEnv.modules.trainer import *
 
 audio_path = 'sounds/water_augmented.wav'
 
