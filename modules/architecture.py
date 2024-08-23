@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from modules.synthesizer import TextEnv, TextEnv_batches
+from modules.synthesizer import SubEnv, SubEnv_batches
 from modules.seeds import seed_maker
 
 def mlp(in_size, hidden_size, n_layers):
@@ -113,13 +113,13 @@ class VAE_SubEnv(nn.Module):
         x = x.to(self.device)
         l = self.encode(x)
         real_param, imag_param = self.decode(l)
-        x_hat = TextEnv_batches(real_param, imag_param, self.seed)
+        x_hat = SubEnv_batches(real_param, imag_param, self.seed)
         return x_hat
     
     def generate(self, z):
         z = z.to(self.device)
         real_param, imag_param = self.decode(z)
-        x_hat = TextEnv(real_param, imag_param, self.seed)
+        x_hat = SubEnv(real_param, imag_param, self.seed)
         return x_hat
 
 import json

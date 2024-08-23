@@ -1,7 +1,7 @@
 # Synthesizers
 import torch
 
-def TextEnv(parameters_real, parameters_imag, seed, target_loudness=1):
+def SubEnv(parameters_real, parameters_imag, seed, target_loudness=1):
     size          = seed.shape[0]
     N_filter_bank = seed.shape[1]
     
@@ -36,7 +36,7 @@ def TextEnv(parameters_real, parameters_imag, seed, target_loudness=1):
 
     return signal_final
 
-def TextEnv_batches(parameters_real, parameters_imag, seed):
+def SubEnv_batches(parameters_real, parameters_imag, seed):
     size          = seed.shape[0]
     N_filter_bank = seed.shape[1]
     
